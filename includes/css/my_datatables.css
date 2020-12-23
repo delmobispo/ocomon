@@ -1,0 +1,71 @@
+.dataTables_filter input,
+.dataTables_length select {
+    border: 1px solid gray;
+    border-radius: 4px;
+    background-color: white;
+    height: 25px;
+}
+
+.dataTables_filter {
+    float: left !important;
+}
+
+.dataTables_length {
+    float: right !important;
+}
+
+/* .display-buttons {
+    position: relative;
+    float: right !important;
+} */
+/* .dataTables_info {
+} */
+
+
+.truncate {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.table_lines {
+    cursor: pointer;
+}
+
+
+.dt-button {
+    color: #fff !important;
+    background: #48606b linear-gradient(180deg, #637881, #48606b) repeat-x !important;
+    border-color: #48606b !important;
+    border-radius: 5px !important;
+}
+
+.dt-button:hover {
+    color: #fff !important;
+    background: #394b54 linear-gradient(180deg, #57666e, #394b54) repeat-x !important;
+    border-color: #33454d !important;
+}
+
+.active:hover {
+    color: #fff !important;
+    background: #0060b3 linear-gradient(180deg, #2678be, #0060b3) repeat-x !important;
+    border-color: #0059a6 !important;
+}
+
+.active {
+    color: #fff !important;
+    background: #0060b3 linear-gradient(180deg, #2678be, #0060b3) repeat-x !important;
+    border-color: #0059a6 !important;
+}
+
+.buttons-columnVisibility:not(.active) {
+    color: #fff !important;
+    background: #d2322d linear-gradient(180deg, #d9514d, #d2322d) repeat-x !important;
+    border-color: #d2322d !important;
+}
+
+table td.resizing {
+    cursor: col-resize;
+}

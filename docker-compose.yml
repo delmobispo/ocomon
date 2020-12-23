@@ -1,0 +1,29 @@
+version: '3.1'
+
+networks:
+  ocomon-net:
+    driver: bridge
+services:
+  mysql-database-ocomon:
+    image: mysql
+    container_name: mysql-database-ocomon
+    command: --default-authentication-plugin=mysql_native_password
+    command: --character-set-server=utf8mb4
+    command: --collation-server=utf8mb4_unicode_ci
+    volumes: 
+      - C:\Users\dede-\Desenvolvimento\Database\mysql\data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    ports: 
+      - 3306:3306
+    networks: 
+      - ocomon-net
+  ocomon:
+    build: .
+    container_name: ocomon
+    volumes:
+      - C:\Users\dede-\Desenvolvimento\Projetos\Faz Software\service-desk:/var/www/html
+    ports:
+      - 8080:80
+    networks:
+      - ocomon-net
