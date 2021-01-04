@@ -1,4 +1,4 @@
-# OcoMon - versão 3.0-rc1
+# OcoMon - versão 3.0-rc2
 ## Data: Dezembro de 2020
 ## Autor: Flávio Ribeiro (flaviorib@gmail.com)
 
@@ -36,19 +36,25 @@ INSTALAÇÃO OU ATUALIZAÇÃO EM AMBIENTE DE PRODUÇÃO:
 <br>
 ### Atualização de versão:
 
+#### A partir da versão 3.0rc1:
 
-**IMPORTANTE:** Leia com atenção o arquivo changelog-3.0rc1.md (*em /changelog*) para conferir novidades e principalmente sobre as **funções removidas de versões anteriores** e algumas novas **configurações necessárias** bem como mudanças de retorno sobre o tempo de SLAs para chamados pré-existentes.
++ **NOVO:** Se você já está utilizando a versão **3.0rc1**, basta sobrescrever os scripts da sua pasta do OcoMon pelos scripts da nova versão **3.0rc2**. **NENHUMA AÇÃO DE BANCO DE DADOS É NECESSÁRIA**
 
-Realize o **BACKUP** tanto dos scripts da versão em uso quanto do banco de dados atualmente em uso pelo sistema.
 
-O processo de atualização considera que a versão corrente é a 2.0 (release final), portanto, se a sua versão for anterior, atualize-a para a versão 2.0 primeiro.
+#### A partir da versão 2.0 final
 
-Para atualizar a partir da versão 2.0 (release final), basta sobrescrever os scripts da sua pasta do OcoMon pelos scripts da nova versão e importar para o MySQL o arquivo de atualização: 02-DB-UPDATE-FROM-2.0.sql (em ocomon_2.0/install/3.0/). <br><br>
++ **IMPORTANTE:** Leia com atenção o arquivo changelog-3.0rc\*.md (*em /changelog*) para conferir novidades e principalmente sobre as **funções removidas de versões anteriores** e algumas novas **configurações necessárias** bem como mudanças de retorno sobre o tempo de SLAs para chamados pré-existentes.
 
-    Ex via linha de comando:
-    mysql -u root -p [database_name] < /caminho/para/o/ocomon_3.0/install/3.0/02-DB-UPDATE-FROM-2.0.sql
++ Realize o **BACKUP** tanto dos scripts da versão em uso quanto do banco de dados atualmente em uso pelo sistema.
+
++ O processo de atualização considera que a versão corrente é a 2.0 (release final), portanto, se a sua versão for anterior, atualize-a para a versão 2.0 primeiro.
+
++ Para atualizar a partir da versão 2.0 (release final), basta sobrescrever os scripts da sua pasta do OcoMon pelos scripts da nova versão e importar para o MySQL o arquivo de atualização: 02-DB-UPDATE-FROM-2.0.sql (em ocomon_2.0/install/3.0/). <br><br>
+
+        Ex via linha de comando:
+        mysql -u root -p [database_name] < /caminho/para/o/ocomon_3.0/install/3.0/02-DB-UPDATE-FROM-2.0.sql
     
-    Onde: [database_name]: É o nome do banco de dados do OcoMon
+        Onde: [database_name]: É o nome do banco de dados do OcoMon
 
 
 ### Primeira instalação:
@@ -128,7 +134,7 @@ VERSÃO PARA TESTES:
 
 Caso queira testar o sistema antes de instalar, você pode rodar um container Docker com o sistema já funcionando com alguns dados já populados. Se você já possui o Docker, então basta executar o seguinte comando em seu terminal:
 
-        docker run -it --name ocomon_3 -p 8000:80 flaviorib/ocomon_demo-3.0rc1:1.3 /bin/ocomon
+        docker run -it --name ocomon_3 -p 8000:80 flaviorib/ocomon_demo-3.0rc1:1.5 /bin/ocomon
 
 Em seguida basta abrir o seu navegador e acessar pelo seguinte endereço:
 
@@ -182,15 +188,18 @@ DOCUMENTAÇÃO:
 
 Toda a documentação do OcoMon está disponível no site do projeto e no canal no Youtube:
 
++ Site oficial: [https://ocomonphp.sourceforge.io/](https://ocomonphp.sourceforge.io/)
 
-[Site oficial: https://ocomonphp.sourceforge.io/](https://ocomonphp.sourceforge.io/)
++ Changelog da versão: [https://ocomonphp.sourceforge.io/changelog-da-versao-3-0rc1/](https://ocomonphp.sourceforge.io/changelog-da-versao-3-0rc1/)
 
-[Twitter: https://twitter.com/OcomonOficial](https://twitter.com/OcomonOficial)
++ Twitter: [https://twitter.com/OcomonOficial](https://twitter.com/OcomonOficial)
 
-[Youtube: https://www.youtube.com/channel/UCFikgr9Xk2bE__snw1_RYtQ](https://www.youtube.com/channel/UCFikgr9Xk2bE__snw1_RYtQ)
++ Canal no Youtube: [https://www.youtube.com/channel/UCFikgr9Xk2bE__snw1_RYtQ](https://www.youtube.com/channel/UCFikgr9Xk2bE__snw1_RYtQ)
+
+
 
 ### Entre em contato:
-[ocomon.oficial@gmail.com](ocomon.oficial@gmail.com)
++ E-mail: [ocomon.oficial@gmail.com](ocomon.oficial@gmail.com)
 
 
 

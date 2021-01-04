@@ -51,6 +51,7 @@ $_SESSION['s_page_ocomon'] = $_SERVER['PHP_SELF'];
     <!-- <link rel="stylesheet" type="text/css" href="../../includes/components/datatables/DataTables-1.10.21/css/dataTables.bootstrap4.css" /> -->
     <!-- <link rel="stylesheet" type="text/css" href="../../includes/components/datatables/Responsive-2.2.5/css/responsive.dataTables-custom.css" /> -->
     <link rel="stylesheet" type="text/css" href="../../includes/components/select2/dist-2/css/select2.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../../includes/components/select2/dist-2/css/select2-bootstrap4.min.css" /> -->
 
     <title>OcoMon&nbsp;<?= VERSAO; ?></title>
 

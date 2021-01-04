@@ -143,7 +143,7 @@
 						print "<option value=".$row['fab_cod'].">".$row['fab_nome']."</option>";
 					} // while
 					print "</select>";
-			print "<input type='button' value='".TRANS('ACT_NEW')."' name='fab' class='minibutton' onClick=\"javascript:popup_alerta('fabricantes.php?popup=true&action=incluir')\"></td>";
+			print "<input type='button' value='".TRANS('ACT_NEW')."' name='fab' class='minibutton' onClick=\"javascript:popup_alerta('../../admin/geral/manufacturers.php?popup=true&action=new')\"></td>";
 		print "</tr>";
 
 		print "<tr>";
@@ -192,7 +192,7 @@
 						print "<option value=".$row['forn_cod'].">".$row['forn_nome']."</option>";
 					} // while
 					print "</select>";
-			print "<input type='button' value='".TRANS('ACT_NEW')."' name='forn' class='minibutton' onClick=\"javascript:popup_alerta('fornecedores.php?popup=true&action=incluir')\"></td>";
+			print "<input type='button' value='".TRANS('ACT_NEW')."' name='forn' class='minibutton' onClick=\"javascript:popup_alerta('../../admin/geral/suppliers.php?popup=true&action=new')\"></td>";
 		print "</tr>";
 
 		print "<tr>";

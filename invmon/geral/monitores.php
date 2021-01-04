@@ -55,7 +55,7 @@
 
         print "<TABLE border='0' cellpadding='5' cellspacing='0' align='center' width='100%' bgcolor='$cor'>";
 
-        print "<TD align=left bgcolor=$cor1><a href=incluir_monitor.php>Incluir monitor</a></TD><TD align=center bgcolor=$cor1><a href=fabricantes.php>Fabricantes</a></TD><BR><TD align=center bgcolor=$cor1><a href=modelos.php>Modelos</a></TD><BR>";
+        print "<TD align=left bgcolor=$cor1><a href=incluir_monitor.php>Incluir monitor</a></TD><TD align=center bgcolor=$cor1><a href=fabricantes.php>Fabricantes</a></TD><BR><TD align=center bgcolor=$cor1><a href=equipments_models.php>Modelos</a></TD><BR>";
 
         print "</TABLE>";
         $cor  = TD_COLOR;

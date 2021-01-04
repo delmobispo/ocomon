@@ -88,8 +88,8 @@
 
                         print "<td class='line'>".$row['item_nome']."</TD>";
 			print "<td class='line'>".$row['mdit_fabricante']." ".$row['mdit_desc']." ".$row['mdit_desc_capacidade']." ".$row['mdit_sufixo']."</TD>";
-                        print "<td class='line'><a onClick=\"redirect('itens.php?action=alter&cod=".$row['mdit_cod']."')\"><img height='16' width='16' src='".ICONS_PATH."edit.png' title='Editar o registro'></a></TD>";
-                        print "<td class='line'><a onClick=\"confirma('Tem Certeza que deseja excluir esse unidade do sistema?','itens.php?action=excluir&cod=".$row['mdit_cod']."')\"><img height='16' width='16' src='".ICONS_PATH."drop.png' title='Excluir o registro'></a></TD>";
+                        print "<td class='line'><a onClick=\"redirect('peripherals.php?action=edit&cod=".$row['mdit_cod']."')\"><img height='16' width='16' src='".ICONS_PATH."edit.png' title='Editar o registro'></a></TD>";
+                        print "<td class='line'><a onClick=\"confirma('Tem Certeza que deseja excluir esse unidade do sistema?','peripherals.php?action=delete&cod=".$row['mdit_cod']."')\"><img height='16' width='16' src='".ICONS_PATH."drop.png' title='Excluir o registro'></a></TD>";
                         print "</TR>";
 				}
                 //print "</TABLE>";
@@ -209,14 +209,14 @@
 
 			if ($achou){
 				print "<script>mensagem('Esse registro não pode ser excluído por existirem equipamentos associados!');".
-						" redirect('itens.php');</script>";
+						" redirect('peripherals.php');</script>";
 				exit;
 			} else {
 
 				$qry = "DELETE FROM modelos_itens WHERE mdit_cod = ".$_GET['cod']."";
 				$exec = mysql_query($qry) or die ('Erro na tentativa de deletar o registro!');
 				print "<script>mensagem('Registro excluído com sucesso!');".
-						" redirect('itens.php?tipo=".$tipo."');</script>";
+						" redirect('peripherals.php?type=".$tipo."');</script>";
 			}
 	} else
 
@@ -237,10 +237,8 @@
 			if ($achou){
 				?>
 				<script language="javascript">
-				<!--
 					mensagem('Esse componente já está cadastrado no sistema!');
-					redirect('itens.php?tipo=<?php print $_POST['item_tipo'];?>');
-				//-->
+					redirect('peripherals.php?type=<?php print $_POST['item_tipo'];?>');
 				</script>
 				<?php 
 			} else {
@@ -250,10 +248,10 @@
 							"".noHtml($mdit_desc_capacidade).", '".noHtml($_POST['item_sufixo'])."', '".$_POST['item_tipo']."')";
 
 				$exec = mysql_query($qry) or die ('Erro na inclusão do componente!<br>'.$qry);
-				print "<script>mensagem('Dados incluídos com sucesso!'); redirect('itens.php');</script>";
+				print "<script>mensagem('Dados incluídos com sucesso!'); redirect('peripherals.php');</script>";
 				}
 		} else {
-				print "<script>mensagem('Dados incompletos!'); redirect('itens.php?tipo=".$_POST['item_tipo']."');</script>";
+				print "<script>mensagem('Dados incompletos!'); redirect('peripherals.php?type=".$_POST['item_tipo']."');</script>";
 		}
 
 	} else
@@ -275,7 +273,7 @@
 			$exec= mysql_query($qry) or die('Não foi possível alterar os dados do registro!'.$qry);
 
 
-			print "<script>mensagem('Dados alterados com sucesso!'); redirect('itens.php?tipo=".$_POST['item_tipo']."');</script>";
+			print "<script>mensagem('Dados alterados com sucesso!'); redirect('peripherals.php?type=".$_POST['item_tipo']."');</script>";
 
 		} else {
 			?>

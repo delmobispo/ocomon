@@ -69,4 +69,4 @@ while ($desc = mysql_fetch_array($exec)) {
     print ">" . $desc['marc_nome'] . "</option>";
 } // while
 print "</select>";
-print "<input type='button' name='modelo' value='" . TRANS('NEW') . "' class='minibutton' onClick=\"javascript:popup_alerta('modelos.php?popup=true')\">";
+print "<input type='button' name='modelo' value='" . TRANS('NEW') . "' class='minibutton' onClick=\"javascript:popup_alerta('equipments_models.php?popup=true')\">";

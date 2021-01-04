@@ -485,7 +485,7 @@ $_SESSION['s_page_admin'] = $_SERVER['PHP_SELF'];
 					</div>
 					<label for="date_format" class="col-md-2 col-form-label col-form-label-sm text-md-right" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="<?= TRANS('HELP_DATA_FORMAT'); ?>"><?= firstLetterUp(TRANS('OPT_DATE_FORMAT')); ?></label>
 					<div class="form-group col-md-4">
-						<input type="text" class="form-control" name="date_format" id="date_format" required value="<?= $config['conf_date_format']; ?>" />
+						<input type="text" class="form-control" name="date_format" id="date_format" required value="<?= $config['conf_date_format']; ?>" placeholder="<?= TRANS('SUGGESTION'); ?>: d/m/Y H:i:s" />
 					</div>
 					<label for="site" class="col-md-2 col-form-label col-form-label-sm text-md-right" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="<?= TRANS('HELP_SITE'); ?>"><?= firstLetterUp(TRANS('OPT_SITE')); ?></label>
 					<div class="form-group col-md-10">

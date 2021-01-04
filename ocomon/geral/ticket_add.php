@@ -585,7 +585,7 @@ if (!isset($_POST['submit']) || empty($_POST)) {
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<div class="input-group-text">
-										<a href="javascript:void(0);" class="add_button" title="Adicionar outro"><i class="fa fa-plus"></i></a>
+										<a href="javascript:void(0);" class="add_button" title="<?= TRANS('TO_ATTACH_ANOTHER'); ?>"><i class="fa fa-plus"></i></a>
 									</div>
 								</div>
 								<!-- <input type="file" class="form-control  " name="anexo[]" /> -->
@@ -776,7 +776,7 @@ $rowlogado = $execlogado->fetch(PDO::FETCH_ASSOC);
 		var addButton = $('.add_button'); //Add button selector
 		var wrapper = $('.field_wrapper'); //Input field wrapper
 
-		var fieldHTML = '<div class="input-group my-1"><div class="input-group-prepend"><div class="input-group-text"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus"></i></a></div><div class="custom-file"><input type="file" class="custom-file-input" name="anexo[]"  aria-describedby="inputGroupFileAddon01" lang="br"><label class="custom-file-label text-truncate" for="inputGroupFile01"><?= TRANS('CHOOSE_FILE', '', 1); ?></label></div></div></div></div>';
+		var fieldHTML = '<div class="input-group d-block my-1"><div class="input-group-prepend"><div class="input-group-text"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus"></i></a></div><div class="custom-file"><input type="file" class="custom-file-input" name="anexo[]"  aria-describedby="inputGroupFileAddon01" lang="br"><label class="custom-file-label text-truncate" for="inputGroupFile01"><?= TRANS('CHOOSE_FILE', '', 1); ?></label></div></div></div></div>';
 
 		var x = 1; //Initial field counter is 1
 

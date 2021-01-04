@@ -1961,7 +1961,7 @@ if (isset($_REQUEST['visualiza']) && $_REQUEST['visualiza'] == 'config') {
 
             //print "<TD align='left' bgcolor='".TD_COLOR."'><b>".TRANS('SERIAL_NUMBER').":</b></TD>";
             print "<td><P ALIGN='LEFT' STYLE='font-weight: medium'>" . strtoupper(TRANS('SERIAL_NUMBER')) . ":</P></td>";
-            print "<TD align='left' ><a onClick=\"popup('estoque.php?action=details&cod=" . $rowPiece['estoq_cod'] . "&cellStyle=true')\">" . $rowPiece['estoq_sn'] . "</a></TD>";
+            print "<TD align='left' ><a onClick=\"popup('peripherals_tagged.php?action=view&cod=" . $rowPiece['estoq_cod'] . "&cellStyle=true')\">" . $rowPiece['estoq_sn'] . "</a></TD>";
 
             print "</tr>";
 

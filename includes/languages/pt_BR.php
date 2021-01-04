@@ -22,7 +22,7 @@
     $TRANS["100_PERCENT"] = "100%";
     $TRANS["247"] = "24/7";
     $TRANS["THE"] = "a";
-    $TRANS["MSG_OPEN_TICKET_DISABLED"] = "A abertura de chamados está desabilitada no sistema!";
+    $TRANS["MSG_OPEN_TICKET_DISABLED"] = "A abertura de chamados está desabilitada no sistema para o seu perfil de tela!";
     $TRANS["TXT_FORM_TRANSIT_1"] = "A constatação de inconformidade dos dados aqui descritos no ato de verificação na portaria implica na <b>não</b> autorização de saída dos equipamentos, nesse caso o departamento responsável deve ser contactado.";
     $TRANS["MSG_COMPARE_DATE"] = "A data final não pode ser menor do que a data inicial!";
     $TRANS["INV_FROM_DATE_REGISTER"] = "A partir";
@@ -455,6 +455,7 @@
     $TRANS["MSG_ERR_IN_THE_QUERY"] = "ERRO NA SEGUINTE QUERY";
     $TRANS["MSG_ERR_DATA_UPDATE"] = "Erro na tentativa de atualizar as informações do registro.";
     $TRANS["ERROR_TEMP_USER"] = "ERRO NA TENTATIVA DE CRIAR USUÁRIO TEMPORÁRIO. SUA SOLICITAÇÃO NÃO FOI PROCESSADA!";
+    $TRANS["MSG_DATA_REMOVE_NOT_IMPLEMENTED"] = "A remoção desse tipo de registro está temporariamente desabilitada no sistema";
     $TRANS["MSG_ERR_DATA_REMOVE"] = "Erro na tentativa de excluir o registro";
     $TRANS["MSG_ERR_SAVE_RECORD"] = "Erro na tentativa de inclusão do registro!";
     $TRANS["MSG_ERR_RESCUE_SEND_EMAIL"] = "ERRO NA TENTATIVA DE RECUPERAR AS INFORMAÇÕES DE ENVIO DE E-MAIL!";
@@ -485,6 +486,7 @@
     $TRANS["MSG_BUILDING_CAD_SYSTEM"] = "Esse Prédio já está cadastrado no sistema!";
     $TRANS["MSG_ERR_DEL_BUILDING_DEP_ASSOC"] = "Esse prédio não pode ser excluído pois existem departamentos associados a ele";
     $TRANS["MSG_RECORD_EXISTS"] = "Já existe um registro com esse nome no sistema";
+    $TRANS["MSG_RECORD_EXISTS_WITH_THIS_TAG"] = "Já existe um registro para essa Unidade com essa Etiqueta no sistema";
     $TRANS["MSG_THIS_REG_DONT_DEL_EXIST"] = "Esse registro não pode ser excluído por existirem";
     $TRANS["MSG_NOT_DEL_EQUIP_ASSOC"] = "Esse registro não pode ser excluído por existirem equipamentos associados!";
     $TRANS["MSG_UPDATE_PRIOR"] = "Esse script atualizará todas as ocorrências antigas para o nível de prioridade padrão do sistema";
@@ -677,6 +679,7 @@
     $TRANS["MNL_INICIO"] = "Início";
     $TRANS["COL_BEGIN_PERIOD"] = "INÍCIO DO PERÍODO";
     $TRANS["INSERT_COMMENT"] = "Inserir comentário";
+    $TRANS["INSERT_COMMENT_FILE"] = "Inserir comentário / arquivo";
     $TRANS["INST_HEAD"] = "Instalação do Ocomon";
     $TRANS["FIELD_INSTITUTION"] = "INSTITUIÇÃO";
     $TRANS["MNL_INVENTARIO"] = "Inventário";
@@ -1338,7 +1341,7 @@
     $TRANS["FIELD_TIME_SOLUTION_NOT_DEFINE_PROB"] = "Tempo de solução não definido para o problema";
     $TRANS["FIELD_SOLUTION_TIME_RECALC"] = "Tempo de Solução recalculado";
     $TRANS["FIELD_TIMES_SOLUTION_SLA"] = "Tempo de Solução X SLA definidos";
-    $TRANS["FIELD_TIME_MONTH"] = "TEMPO EM MESES";
+    $TRANS["FIELD_TIME_MONTH"] = "Tempo em meses";
     $TRANS["COL_REMAIN_TIME"] = "Tempo Restante";
     $TRANS["HNT_REMAIN_TIME_IN_SLA"] = "Tempo restante dentro do SLA";
     $TRANS["HNT_REMAIN_TIME"] = "Tempo restante para o atendimento (dias corridos ou horas válidas)";
@@ -1633,6 +1636,10 @@
     $TRANS['CONTACT_EMAIL'] = "E-mail de contato";  
     $TRANS['FIELD_ASSET_TAG'] = "Campo: ETIQUETA";  
     $TRANS["CONTACT_EMAIL_PLACEHOLDER"] = "Informe o endereço de e-mail para contato";
+    $TRANS["SUGGESTION"] = "Sugestão";
     $TRANS["ERROR_PHP_VERSION"] = "A versão mínima do PHP deve ser a 7.x. Será necessário atualizar o PHP para poder utilizar o OcoMon";
-
+    $TRANS["ERROR_SQL_MODE"] = "Para que as consultas funcionem adequadamente, essa versão do OcoMon precisa que a diretiva \"ONLY_FULL_GROUP_BY\" seja removida do SQL_MODE do MySql";
+    $TRANS['EQUIPMENTS_MODELS'] = "Modelos de equipamentos";  
+    $TRANS['IN_EQUIPMENT'] = "Vinculado a algum equipamento";  
+    $TRANS['AT_LEAST_5_CHARS'] = "Pelo menos 5 caracteres";  
 

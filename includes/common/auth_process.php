@@ -98,7 +98,7 @@ $_SESSION['s_uareas'] = $allAreas;
 $_SESSION['s_area_admin'] = $userInfo['user_admin'];
 $_SESSION['s_ocomon'] = $mod_tickets;
 $_SESSION['s_invmon'] = $mod_inventory;
-$_SESSION['s_screen'] = $userInfo['sis_screen'] ?? 2;
+$_SESSION['s_screen'] = $userInfo['sis_screen'] ?? 2; /* Segundo registro - criado no install */
 // $_SESSION['s_screen'] = $userInfo['sis_screen'];
 $_SESSION['s_wt_areas'] = $config['conf_wt_areas']; //1: origem , 2: destino
 

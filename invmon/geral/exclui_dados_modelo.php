@@ -109,7 +109,7 @@ include ("logado.php");
                                 {
                                         $aviso = "OK. Registro excluido com sucesso.";
                                 }
-                                $origem = "modelos.php";
+                                $origem = "equipments_models.php";
                                 session_register("aviso");
                                 session_register("origem");
                                 echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0;URL=mensagem.php\">";
@@ -120,7 +120,7 @@ include ("logado.php");
 
         <TABLE  border="0" cellpadding="0" cellspacing="0" align="center" width="100%" bgcolor=<?php print TD_COLOR?>>
         <TR>
-                <TD align="center" width="100%" bgcolor=<?php print BODY_COLOR?>><a href=modelos.php>Voltar</a></TD>
+                <TD align="center" width="100%" bgcolor=<?php print BODY_COLOR?>><a href=equipments_models.php>Voltar</a></TD>
         </TR>
         </TABLE>
 </TABLE>

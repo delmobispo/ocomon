@@ -20,7 +20,25 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 is_file("./includes/config.inc.php")
     or die("Você precisa configurar o arquivo config.inc.php em OCOMON/INCLUDES/para iniciar o uso do OCOMON!<br>Leia o arquivo <a href='LEIAME.md'>LEIAME.md</a> para obter as principais informações sobre a instalação do OCOMON!" .
-        "<br><br>You have to configure the config.inc.php file in OCOMON/INCLUDES/ to start using Ocomon!<br>Read the file <a href='LEIAME.md'>LEIAME.md</a>to get the main informations about the Ocomon Installation!");
+        "<br><br>You have to configure the config.inc.php file in OCOMON/INCLUDES/ to start using Ocomon!<br>Read the file <a href='LEIAME.md'>LEIAME.md</a> to get the main informations about the Ocomon Installation!");
+
+if (version_compare(phpversion(), '7.0', '<' )){
+    session_start();
+    session_destroy();
+    echo "A versão mínima do PHP deve ser a 7.x. Será necessário atualizar o PHP para poder utilizar o OcoMon.<hr>";
+    echo "OcoMon needs at least PHP 7.x to run properly.";
+    return;
+}
+
+if (!function_exists('mb_internal_encoding')) {
+    /* Não possui o módulo mbstring */
+    session_start();
+    session_destroy();
+    echo "É necessário instalar o módulo mbstring no seu PHP para que o OcoMon funcione adequadamente.<hr>";
+    echo "You need to install mbstring PHP module in order to OcoMon runs properly.";
+    return;
+}
+
 
 session_start();
 
@@ -152,6 +170,12 @@ $admAreaHome = (isset($_SESSION['s_page_admin']) ? $_SESSION['s_page_admin'] : $
     <?php
     if (isPHPOlder()) {
         echo message('danger', 'Ooops!', TRANS('ERROR_PHP_VERSION'), '', '', 1);
+        session_destroy();
+        return;
+    }
+
+    if (!isSqlModeOk($conn)) {
+        echo message('danger', 'Ooops!', TRANS('ERROR_SQL_MODE'), '', '', 1);
         session_destroy();
         return;
     }

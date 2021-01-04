@@ -40,6 +40,33 @@ function isPHPOlder(){
     return false;
 }
 
+/**
+ * Retona se o requisito da versão 3.0 quanto ao SQL_MODE do MySQL está ok
+ * @return bool
+ */
+function isSqlModeOk ($conn) {
+    
+    $key = "ONLY_FULL_GROUP_BY";
+    $sqlMode = "SELECT @@sql_mode";
+
+    try {
+        $resSqlMode = $conn->query($sqlMode);
+        $haystack = $resSqlMode->fetch()['@@sql_mode'];
+
+        $pieces = explode(',', $haystack);
+
+        foreach ($pieces as $piece) {
+            if (trim(strtolower($piece)) == strtolower($key)) {
+                return false;
+            }
+        }
+    }
+    catch (Exception $e) {
+        return false;
+    }
+
+    return true;
+}
 
 if(!isPHPOlder()){
     
@@ -153,6 +180,33 @@ if (!function_exists('eregi')) {
 }
 
 
+
+
+/**
+ * Retorna o valor formatado no formato de moeda Brasileiro
+ * @param string $price
+ * @return string
+ */
+function priceScreen(?string $price): string
+{
+    return number_format((!empty($price) ? $price : 0), 2, ",", ".");
+}
+
+/**
+ * Retorna o valor formatado no formato float para gravar no banco
+ * @param string $price
+ * @return string
+ */
+function priceDB(?string $price): string
+{
+    $price = (!empty($price) ? str_replace('.','', $price) : '');
+    $price = (!empty($price) ? str_replace(',','.', $price) : '');
+    
+    // return number_format((!empty($price) ? $price : 0), 2, ".", ",");
+    return $price;
+}
+
+
 /**
  * Adiciona o recurso multibyte na funçao uc_first
  */
@@ -242,6 +296,29 @@ function getConfig ($conn): array
         return [];
     }
 }
+
+
+/**
+ * Retorna o array com as informações da tabela de equipamentos
+ */
+function getEquipmentInfo ($conn, $unit, $tag): array
+{
+    if (empty($unit) || empty($tag)) {
+        return [];
+    }
+    
+    $sql = "SELECT * FROM equipamentos WHERE comp_inv = '{$tag}' AND comp_inst = '{$unit}' ";
+    try {
+        $res = $conn->query($sql);
+        if ($res->rowCount())
+            return $res->fetch();
+        return [];
+    }
+    catch (Exception $e) {
+        return [];
+    }
+}
+
 
 /**
  * Atualiza a informação sobre a data do último logon do usuário
@@ -658,6 +735,7 @@ function getEnvVarsValues ($conn, $ticket): array
     $vars['%telefone%'] = $row['telefone'];
     $vars['%site%'] = "<a href='" . $config['conf_ocomon_site'] . "'>" . $config['conf_ocomon_site'] . "</a>";
     $vars['%area%'] = $row['area'];
+    $vars['%area_email%'] = $row['area_email'];
     $vars['%operador%'] = $row['nome'];
     $vars['%editor%'] = $row['nome'];
     $vars['%aberto_por%'] = $row['aberto_por'];
@@ -718,7 +796,7 @@ function TRANS($index, $suggest = '', $javascript = 0)
     $spanClosing = "";
     
     if (!isset($_SESSION['s_language'])) {
-        $_SESSION['s_language'] = "en.php";
+        $_SESSION['s_language'] = "pt_BR.php";
     }
 
     if (is_file(__DIR__ . "/" . "../languages/" . $_SESSION['s_language'])) {
@@ -1333,7 +1411,7 @@ function dateDB(?string $date, ?int $nullable = 0): string
     if ($nullable == 0) {
         $date = (empty($date) ? "now" : $date);
     }
-
+    
     if (empty($date)) {
         return '';
     }
@@ -1551,7 +1629,7 @@ function inteiro($string)
 
 function noHtml($string)
 {
-    return filter_var($string, FILTER_SANITIZE_STRIPPED);
+    return trim(filter_var($string, FILTER_SANITIZE_STRIPPED));
 }
 
 function toHtml($string)
@@ -2171,7 +2249,7 @@ function isImpar($number){
  * dbField
  *
  * @param mixed $field
- * @param mixed $type="int"|"text"|"date"
+ * @param mixed $type="int"|"text"|"date"|"float"
  * 
  * @return [type]
  */

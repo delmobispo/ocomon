@@ -107,7 +107,7 @@
 				}
 
 				print "</select>";
-				print "<input type='button' name='modelo' value='Novo' class='minibutton' onClick=\"javascript:mini_popup('modelos.php?action=incluir&popup=true')\">";
+				print "<input type='button' name='modelo' value='Novo' class='minibutton' onClick=\"javascript:mini_popup('equipments_models.php?action=new&popup=true')\">";
 		print "</td>";
 
 
@@ -116,7 +116,7 @@
 		print "<TR><td colspan='4'></td></TR>";
 		print "<tr><td colspan='3'><b>".TRANS('SUBTTL_INFO_CONFIG_EQUIP').":</b></td><td class='line'>".
 				"<input type='button' class='button' value='".TRANS('bt_componente')."' ".
-				"Onclick=\"return popup_alerta('itens.php?popup=true')\"></td>".
+				"Onclick=\"return popup_alerta('peripherals.php?popup=true')\"></td>".
 			"</tr>";
 		print "<TR><td colspan='4'></td></TR>";
 

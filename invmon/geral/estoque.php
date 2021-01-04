@@ -75,7 +75,7 @@
 	print "\">";
 
 	$auth = new auth($_SESSION['s_logado']);
-	$auth->testa_user($_SESSION['s_usuario'],$_SESSION['s_nivel'],$_SESSION['s_nivel_desc'],2);
+	$auth->testa_user($_SESSION['s_usuario'],$_SESSION['s_nivel'],$_SESSION['s_nivel_desc'],2); 	
 
 	$PAGE = new paging("PRINCIPAL");
 	$PAGE->setRegPerPage($_SESSION['s_page_size']);
@@ -207,9 +207,9 @@
 
 			print "<TD colspan='5' width='400' align='left'><B>".TRANS('WERE_FOUND')." <font color=red>".$PAGE->NUMBER_REGS."</font> ".TRANS('TXT_ITEM_SUPPLY').". ".TRANS('SHOWING_PAGE')." ".$PAGE->PAGE." (".$PAGE->NUMBER_REGS_PAGE." ".TRANS('RECORDS').")</B></TD>";
 
-			//print "<TD width='200' align='left' ><a href='itens.php?action=incluir&cellStyle=true'>".TRANS('TTL_INCLUDE_COMP')."</a></td>";
+			//print "<TD width='200' align='left' ><a href='peripherals.php?action=incluir&cellStyle=true'>".TRANS('TTL_INCLUDE_COMP')."</a></td>";
 			print "<TD align='left' colspan='2'>".
-					"<input type='button' class='button' id='idBtIncluir' value='".TRANS('TTL_INCLUDE_COMP_MODEL','',0)."' onClick=\"redirect('itens.php?action=incluir&cellStyle=true');\">".
+					"<input type='button' class='button' id='idBtIncluir' value='".TRANS('TTL_INCLUDE_COMP_MODEL','',0)."' onClick=\"redirect('peripherals.php?action=new&cellStyle=true');\">".
 					"</td>";
 			print "</tr>";
 			print "<TR class='header'><td class='line'>".TRANS('COL_TYPE')."</TD><td class='line'>".TRANS('COL_MODEL')."</TD>".
@@ -954,7 +954,8 @@
 
 			$postDateBy = $_POST['estoque_date_buy'];
 			$dateBuy = (!empty($postDateBy)? FDate($postDateBy, 0) : 'null' );
-			$datebuy = ($dateBuy != 'null' ? $dateBuy = " . '{$dateBuy}' . " : $dateBuy);
+			// $datebuy = ($dateBuy != 'null' ? $dateBuy = " . '{$dateBuy}' . " : $dateBuy);
+			$datebuy = ($dateBuy != 'null' ? $dateBuy = "  '{$dateBuy}'  " : $dateBuy);
 			
 			// $valor = str_replace(",",".",$_POST['estoque_value']);
 			
@@ -1036,7 +1037,8 @@
 
 			$postDateBy = $_POST['estoque_date_buy'];
 			$dateBuy = (!empty($postDateBy)? FDate($postDateBy, 0) : 'null' );
-			$datebuy = ($dateBuy != 'null' ? $dateBuy = " . '{$dateBuy}' . " : $dateBuy);			
+			// $datebuy = ($dateBuy != 'null' ? $dateBuy = " . '{$dateBuy}' . " : $dateBuy);			
+			$datebuy = ($dateBuy != 'null' ? $dateBuy = "  '{$dateBuy}'  " : $dateBuy);			
 
 			if (empty($_POST['estoque_tag'])){
 				$estoque_tag = 'null';

@@ -174,7 +174,7 @@ $QRY["garantia"] = "SELECT c.comp_inv as inventario, i.inst_nome as instituicao,
 			left join fornecedores as f on f.forn_cod = c.comp_fornecedor,
 			instituicao as i
 		WHERE c.comp_garant_meses is not null and
-			c.comp_data_compra<>'0000:00:00 00:00'  and
+			c.comp_data_compra IS NOT NULL  AND
 			c.comp_inst=i.inst_cod ";
 
 $QRY["garantia_pieces"] = "SELECT
@@ -195,7 +195,7 @@ $QRY["garantia_pieces"] = "SELECT
 			left join tempo_garantia as t on e.estoq_warranty = t.tempo_cod
 			left join fornecedores as f on f.forn_cod = e.estoq_vendor
 		WHERE e.estoq_warranty is not null and
-			e.estoq_data_compra<>'0000:00:00 00:00'";
+			e.estoq_data_compra IS NOT NULL";
 
 $QRY["garantia_pieces_OK"] = "SELECT
 
@@ -215,7 +215,7 @@ $QRY["garantia_pieces_OK"] = "SELECT
 			left join tempo_garantia as t on e.estoq_warranty = t.tempo_cod
 			left join fornecedores as f on f.forn_cod = e.estoq_vendor
 		WHERE e.estoq_warranty is not null and
-			e.estoq_data_compra<>'0000:00:00 00:00'";
+			e.estoq_data_compra IS NOT NULL";
 
 // monitores não inclusos
 $QRY["vencimentos"] = "SELECT count(*) AS quantidade,

@@ -335,7 +335,7 @@
 						"</TD>";
 
 					print "<TD width='20%' align='left' bgcolor='".TD_COLOR."'><b>".TRANS('SERIAL_NUMBER').":</b></TD>";
-					print "<TD class='borda' width='30%' align='left' ><a onClick=\"popup('estoque.php?action=details&cod=".$rowPiece['estoq_cod']."&cellStyle=true')\">".$rowPiece['estoq_sn']."</a></TD>";
+					print "<TD class='borda' width='30%' align='left' ><a onClick=\"popup('peripherals_tagged.php?action=view&cod=".$rowPiece['estoq_cod']."&cellStyle=true')\">".$rowPiece['estoq_sn']."</a></TD>";
 
 					print "</tr>";
 

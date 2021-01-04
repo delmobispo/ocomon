@@ -250,12 +250,6 @@ $_SESSION['s_page_admin'] = $_SERVER['PHP_SELF'];
 				}
 			});
 
-			$('#idBtReturn').on('click', function() {
-				let url = 'departments.php';
-				$(location).prop('href', url);
-			});
-
-
             $('input, select, textarea').on('change', function() {
 				$(this).removeClass('is-invalid');
 			});

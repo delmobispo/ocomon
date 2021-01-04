@@ -213,7 +213,7 @@ while ($rowMarcas = mysql_fetch_array($resultado)) {
     print ">" . $rowMarcas['marc_nome'] . "</option>";
 }
 print "</select>";
-print "<input type='button' name='modelo' value='" . TRANS('NEW') . "' class='minibutton' onClick=\"javascript:popup_alerta('modelos.php?popup=true')\">";
+print "<input type='button' name='modelo' value='" . TRANS('NEW') . "' class='minibutton' onClick=\"javascript:popup_alerta('equipments_models.php?popup=true')\">";
 
 print "</div>";
 
@@ -266,7 +266,7 @@ print "</tr>";
 print "<TR><td colspan='4'></td></TR>";
 print "<tr><td colspan='3'><b>" . TRANS('SUBTTL_INFO_CONFIG_EQUIP') . ":</b></td><td class='line'>" .
 "<input type='button' class='button' value='" . TRANS('TTL_INCLUDE_COMP') . "' " .
-    "Onclick=\"return popup_alerta('itens.php?action=incluir&cellStyle=true&popup=true')\"></td>" .
+    "Onclick=\"return popup_alerta('peripherals.php?action=new&cellStyle=true&popup=true')\"></td>" .
     "</tr>";
 print "<TR><td colspan='4'></td></TR>";
 

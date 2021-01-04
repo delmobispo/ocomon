@@ -18,54 +18,158 @@
          Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */session_start();
 
+if (!isset($_SESSION['s_logado']) || $_SESSION['s_logado'] == 0) {
+	header("Location: ../../index.php");
+	exit;
+}
 
-	include ("../../includes/include_geral.inc.php");
-	include ("../../includes/include_geral_II.inc.php");
+require_once __DIR__ . "/" . "../../includes/include_geral_new.inc.php";
+require_once __DIR__ . "/" . "../../includes/classes/ConnectPDO.php";
+
+use includes\classes\ConnectPDO;
+
+$conn = ConnectPDO::getInstance();
+
+$auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
 
 
-	print "<HTML>";
-	print "<BODY bgcolor='".BODY_COLOR."'>";
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-	$auth = new auth($_SESSION['s_logado']);
-	$auth->testa_user($_SESSION['s_usuario'],$_SESSION['s_nivel'],$_SESSION['s_nivel_desc'],2);
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="../../includes/css/estilos.css" />
+	<link rel="stylesheet" type="text/css" href="../../includes/components/bootstrap/custom.css" />
+	<link rel="stylesheet" type="text/css" href="../../includes/components/fontawesome/css/all.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../includes/components/datatables/datatables.min.css" />
 
-	if (!isset($_GET['COD'])) {
-		print TRANS('MSG_ERROR_PARAM','ERRO: Falta parâmentro de entrada')."!";
-		exit;
-	} else {
-
-		print "<BR><B>".TRANS('ATTACHED_FILES_TO_THE_TICKET','Arquivos anexados à ocorrência número').":&nbsp;".$_GET['COD']."</B><BR>";
-		print "<TABLE border='0'>";
-
-		$qryTela = "select * from imagens where img_oco = ".$_GET['COD']."";
-		$execTela = mysql_query($qryTela) or die ("NÃO FOI POSSÍVEL RECUPERAR AS INFORMAÇÕES DOS ARQUIVOS ANEXOS!");
-		//$rowTela = mysql_fetch_array($execTela);
-		$isTela = mysql_num_rows($execTela);
-		$cont = 0;
-		while ($rowTela = mysql_fetch_array($execTela)) {
-		//if ($isTela !=0) {
-			$cont++;
-			print "<tr>";
-			$size = round($rowTela['img_size']/1024,1);
-			print "<TD  bgcolor='".TD_COLOR."' >Anexo ".$cont."&nbsp;[".$rowTela['img_tipo']."]<br>(".$size."k):</td>";
-
-			//if(eregi("^image\/(pjpeg|jpeg|png|gif|bmp)$", $rowTela["img_tipo"])) {
-			if(isImage($rowTela["img_tipo"])) {
-				$viewImage = "&nbsp;<a onClick=\"javascript:popupWH('../../includes/functions/showImg.php?".
-					"file=".$_GET['COD']."&cod=".$rowTela['img_cod']."',".$rowTela['img_largura'].",".$rowTela['img_altura'].")\" ".
-					"title='View the file'><img src='../../includes/icons/kghostview.png' width='16px' height='16px' border='0'></a>";
-			} else {
-				$viewImage = "";
-			}
-			print "<td colspan='5' ><a onClick=\"redirect('../../includes/functions/download.php?".
-					"file=".$_GET['COD']."&cod=".$rowTela['img_cod']."')\" title='Download the file'>".
-					"<img src='../../includes/icons/attach2.png' width='16px' height='16px' border='0'>".
-					"".$rowTela['img_nome']."</a>".$viewImage."</TD>";
-			print "</tr>";
+	<style>
+		.dataTables_filter input,
+		.dataTables_length select {
+			border: 1px solid gray;
+			border-radius: 4px;
+			background-color: white;
+			height: 25px;
 		}
-		print "</table>";
+
+		.dataTables_filter {
+			float: left !important;
+		}
+
+		.dataTables_length {
+			float: right !important;
+		}
+	</style>
+
+	<title>OcoMon&nbsp;<?= VERSAO; ?></title>
+</head>
+
+<body>
+	<?= $auth->showHeader(); ?>
+
+	<?php
+		if (!isset($_GET['COD'])) {
+			echo message('danger', 'Ooops!', TRANS('MSG_ERROR_PARAM'), '', '', 1);
+			return;
+		}
+
+		$cod = (int) $_GET['COD'];
+	?>
+	<div class="container">
+		<div id="idLoad" class="loading" style="display:none"></div>
+	</div>
+
+
+	<div class="container-fluid">
+		<h5 class="my-4"><i class="fas fa-paperclip text-secondary"></i>&nbsp;<?= TRANS('ATTACHED_FILES_TO_THE_TICKET'); ?>:&nbsp;<?= $cod; ?></h5>
+		<div class="modal" id="modal" tabindex="-1" style="z-index:9001!important">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div id="divDetails">
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<?php
+
+
+	$sql = "SELECT * FROM imagens WHERE img_oco = {$cod} ";
+	$res = $conn->query($sql);
+
+	if (!$res->rowCount()) {
+		echo message('info', 'Ooops!', TRANS('NO_RECORDS_FOUND'), '', '', 1);
+		return;
 	}
 
-	print "</body>";
-	print "</html>";
-?>
+	?>
+	<table id="attachments" class="stripe hover order-column row-border" border="0" cellspacing="0" width="100%">
+
+	<thead>
+		<tr class="header">
+			<td class="line" scope="col">#</td>
+			<td class="line" scope="col"><?= TRANS('COL_TYPE'); ?></td>
+			<td class="line" scope="col"><?= TRANS('SIZE'); ?></td>
+			<td class="line" scope="col"><?= TRANS('FILE'); ?></td>
+		</tr>
+	</thead>
+	<tbody>
+
+
+	<?php
+	$i = 1;
+	foreach ($res->fetchAll() as $rowFiles) {
+
+		$size = round($rowFiles['img_size'] / 1024, 1);
+		$rowFiles['img_tipo'] . "](" . $size . "k)";
+
+		if (isImage($rowFiles["img_tipo"])) {
+			
+
+			$viewImage = "&nbsp;<a onClick=\"javascript:popupWH('../../includes/functions/showImg.php?" .
+				"file=" . $rowFiles['img_oco'] . "&cod=" . $rowFiles['img_cod'] . "'," . $rowFiles['img_largura'] . "," . $rowFiles['img_altura'] . ")\" " .
+				"title='view'><i class='fa fa-search'></i></a>";
+			
+		} else {
+			$viewImage = "";
+		}
+		?>
+		<tr>
+			<th scope="row"><?= $i; ?></th>
+			<td class="line"><?= $rowFiles['img_tipo']; ?></td>
+			<td class="line"><?= $size; ?>k</td>
+			<td class="line"><a onClick="redirect('../../includes/functions/download.php?file=<?= $cod; ?>&cod=<?= $rowFiles['img_cod']; ?>')" title="Download the file"><?= $rowFiles['img_nome']; ?></a><?= $viewImage; ?></i></td>
+		</tr>
+		<?php
+		$i++;
+	}
+	?>
+	</tbody>
+	</table>
+	
+	<script src="../../includes/javascript/funcoes-3.0.js"></script>
+	<script src="../../includes/components/jquery/jquery.js"></script>
+	<script src="../../includes/components/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="../../includes/components/datatables/datatables.js"></script>
+
+	<script type="text/javascript">
+		$(function() {
+
+			$('#attachments').DataTable({
+				paging: true,
+				deferRender: true,
+				
+				"language": {
+					"url": "../../includes/components/datatables/datatables.pt-br.json"
+				}
+			});
+
+		});
+
+	</script>
+
+
+</body>
+</html>

@@ -30,7 +30,7 @@ use includes\classes\ConnectPDO;
 
 $conn = ConnectPDO::getInstance();
 
-$auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 1);
+$auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 2);
 
 $_SESSION['s_page_admin'] = $_SERVER['PHP_SELF'];
 
@@ -280,11 +280,6 @@ $_SESSION['s_page_admin'] = $_SERVER['PHP_SELF'];
 				"language": {
 					"url": "../../includes/components/datatables/datatables.pt-br.json"
 				}
-			});
-
-			$('#idBtReturn').on('click', function() {
-				let url = 'departments.php';
-				$(location).prop('href', url);
 			});
 
 

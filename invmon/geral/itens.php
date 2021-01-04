@@ -24,7 +24,7 @@
 
 	include ("../../includes/classes/paging.class.php");
 
-	$_SESSION['s_page_admin'] = $_SERVER['PHP_SELF'];
+	// $_SESSION['s_page_admin'] = $_SERVER['PHP_SELF'];
 
 	print "<HTML>";
 	print "<BODY bgcolor=".BODY_COLOR.">";
@@ -132,7 +132,7 @@
 			print "<tr class=".$trClass." id='linhax".$j."' onMouseOver=\"destaca('linhax".$j."','".$_SESSION['s_colorDestaca']."');\" onMouseOut=\"libera('linhax".$j."','".$_SESSION['s_colorLinPar']."','".$_SESSION['s_colorLinImpar']."');\"  onMouseDown=\"marca('linhax".$j."','".$_SESSION['s_colorMarca']."');\">";
 			print "<td class='line'>".$row['item_nome']."</TD>";
 			print "<td class='line'>".$row['mdit_fabricante']." ".$row['mdit_desc']." ".$row['mdit_desc_capacidade']." ".$row['mdit_sufixo']."</TD>";
-			print "<td class='line'><a onClick=\"redirect('itens.php?action=alter&cod=".$row['mdit_cod']."&cellStyle=true')\"><img height='16' width='16' src='".ICONS_PATH."edit.png' title='".TRANS('BT_ALTER')."'></a></TD>";
+			print "<td class='line'><a onClick=\"redirect('peripherals.php?action=edit&cod=".$row['mdit_cod']."&cellStyle=true')\"><img height='16' width='16' src='".ICONS_PATH."edit.png' title='".TRANS('BT_ALTER')."'></a></TD>";
 			print "<td class='line'><a onClick=\"confirma('".TRANS('MSG_DEL_UNIT_IN_SYSTEM')."','".$_SERVER['PHP_SELF']."?action=excluir&cod=".$row['mdit_cod']."')\"><img height='16' width='16' src='".ICONS_PATH."drop.png' title='".TRANS('BT_REMOVE')."'></a></TD>";
 			print "</TR>";
 		}

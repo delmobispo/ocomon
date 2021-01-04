@@ -43,7 +43,7 @@
 	print "<TABLE border='0' align='left' ".$cellStyle."  width='100%' bgcolor='".BODY_COLOR."'>";
 
 
-        	$query = "SELECT m.marc_cod as codigo, m.marc_nome as modelo, t.tipo_nome as tipo, t.tipo_cod as tipo_cod ".
+        $query = "SELECT m.marc_cod as codigo, m.marc_nome as modelo, t.tipo_nome as tipo, t.tipo_cod as tipo_cod ".
         					"FROM marcas_comp as m, tipo_equip as t ".
         					"WHERE m.marc_tipo = t.tipo_cod ";
 		if (isset($_GET['cod'])) {

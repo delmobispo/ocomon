@@ -248,26 +248,29 @@ if ($data['action'] == 'new') {
     
 } elseif ($data['action'] == 'shown_notices') {
 
-    foreach ($post['notice_ids'] as $notice_id) {
-        $sql = "INSERT INTO user_notices 
-                (
-                    user_id, 
-                    notice_id
-                ) 
-                VALUES 
-                (
-                    '" . $data['author'] ."', 
-                    '{$notice_id}'
-                )
-        ";
-        try {
-            $conn->exec($sql);
-        }
-        catch (Exception $e) {
-            $exception .= "<hr>" . $e->getMessage() . "<hr>" . $sql;
-            echo $exception;
+    if ($post && isset($post['notice_ids'])) {
+        foreach ($post['notice_ids'] as $notice_id) {
+            $sql = "INSERT INTO user_notices 
+                    (
+                        user_id, 
+                        notice_id
+                    ) 
+                    VALUES 
+                    (
+                        '" . $data['author'] ."', 
+                        '{$notice_id}'
+                    )
+            ";
+            try {
+                $conn->exec($sql);
+            }
+            catch (Exception $e) {
+                $exception .= "<hr>" . $e->getMessage() . "<hr>" . $sql;
+                echo $exception;
+            }
         }
     }
+    
 
     return false;
 }

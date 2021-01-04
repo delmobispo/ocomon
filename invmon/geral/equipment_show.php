@@ -27,10 +27,7 @@ require_once __DIR__ . "/" . "../../includes/classes/ConnectPDO.php";
 use includes\classes\ConnectPDO;
 $conn = ConnectPDO::getInstance();
 
-$auth = new auth($_SESSION['s_logado']);
-// $auth->showHeader();
-$auth->testa_user_hidden($_SESSION['s_usuario'], $_SESSION['s_nivel'], $_SESSION['s_nivel_desc'], 4);
-// $_SESSION['s_page_ocomon'] = $_SERVER['PHP_SELF'];
+$auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
 
 ?>
 <!DOCTYPE html>
@@ -143,7 +140,10 @@ $auth->testa_user_hidden($_SESSION['s_usuario'], $_SESSION['s_nivel'], $_SESSION
     $qryPieces .= " and eqp.eqp_equip_inv in ('" . $tag . "') and eqp.eqp_equip_inst=" . $unit . "";
     $qryPieces .= $QRY["componenteXequip_fim"];
 
+    // dump($qryPieces);
+
     $resultPieces = $conn->query($qryPieces);
+
     $pieces = $resultPieces->rowCount();
 
 
@@ -384,7 +384,7 @@ $auth->testa_user_hidden($_SESSION['s_usuario'], $_SESSION['s_nivel'], $_SESSION
 
                         <div class="row my-2">
                             <div class="<?= $colLabel; ?>"><?= TRANS('FIELD_VALUE'); ?></div>
-                            <div class="<?= $colContent; ?>"><?= $row['valor']; ?></div>
+                            <div class="<?= $colContent; ?>"><?= priceScreen($row['valor']); ?></div>
                             <div class="<?= $colLabel; ?>"><?= TRANS('PURCHASE_DATE'); ?></div>
                             <div class="<?= $colContent; ?>"><?= dateScreen($row['data_compra'], 1); ?></div>
                         </div>
@@ -478,7 +478,8 @@ $auth->testa_user_hidden($_SESSION['s_usuario'], $_SESSION['s_nivel'], $_SESSION
 
                                     ?>
                                         <tr>
-                                            <th scope="row"><?= $i; ?></th>
+                                            <!-- <th scope="row"><?= $i; ?></th> -->
+                                            <td class="line"><a onclick="popupS('peripherals_tagged.php?action=view&cod=<?= $rowPiece['estoq_cod']; ?>')"><?= $i; ?></a></td>
                                             <td><?= $rowPiece['item_nome']; ?></td>
                                             <td><?= $rowPiece['fabricante'] . " " . $rowPiece['modelo'] . " " . $rowPiece['capacidade'] . " " . $rowPiece['sufixo']; ?></td>
                                             <td><?= $rowPiece['estoq_sn']; ?></td>

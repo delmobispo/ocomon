@@ -225,7 +225,7 @@ if ($_SESSION['s_uareas']) {
                                         <tr class="header">
                                             <td class="line"><?= TRANS('TICKET_NUMBER'); ?></td>
                                             <td class="line"><?= TRANS('ISSUE_TYPE'); ?></td>
-                                            <td class="line"><?= TRANS('FIELD_CONTACT'); ?><br /><?= TRANS('COL_PHONE'); ?></td>
+                                            <td class="line"><?= TRANS('CONTACT'); ?><br /><?= TRANS('COL_PHONE'); ?></td>
                                             <td class="line"><?= TRANS('DEPARTMENT'); ?><br /><?= TRANS('DESCRIPTION'); ?></td>
                                             <td class="line"><?= TRANS('FIELD_LAST_OPERATOR'); ?></td>
                                         </tr>

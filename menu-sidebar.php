@@ -287,7 +287,13 @@ if (isset($_GET['menu']) && !empty($_GET['menu'])) {
 							<a href="#" data-app="documentos" data-params="action=incluir&cellStyle=true" data-path="<?= $invmonPath ?>"><?= TRANS('DOCUMENT'); ?></a>
 						</li>
 						<li>
-							<a href="#" data-app="estoque" data-params="action=incluir&cellStyle=true" data-path="<?= $invmonPath ?>"><?= TRANS('DETACHED_COMPONENT'); ?></a>
+							<a href="#" data-app="equipments_models" data-params="action=new&cellStyle=true" data-path="<?= $invmonPath ?>"><?= TRANS('EQUIPMENTS_MODELS'); ?></a>
+						</li>
+						<li>
+							<a href="#" data-app="peripherals" data-params="action=new&cellStyle=true" data-path="<?= $invmonPath ?>"><?= TRANS('MNL_COMPONENTES_MODEL'); ?></a>
+						</li>
+						<li>
+							<a href="#" data-app="peripherals_tagged" data-params="action=new&cellStyle=true" data-path="<?= $invmonPath ?>"><?= TRANS('DETACHED_COMPONENT'); ?></a>
 						</li>
 					</ul>
 				</div>
@@ -307,7 +313,13 @@ if (isset($_GET['menu']) && !empty($_GET['menu'])) {
 							<a href="#" data-app="documentos" data-params="" data-path="<?= $invmonPath ?>"><?= TRANS('DOCUMENT'); ?></a>
 						</li>
 						<li>
-							<a href="#" data-app="estoque" data-params="" data-path="<?= $invmonPath ?>"><?= TRANS('DETACHED_COMPONENTS'); ?></a>
+							<a href="#" data-app="equipments_models" data-params="" data-path="<?= $invmonPath ?>"><?= TRANS('EQUIPMENTS_MODELS'); ?></a>
+						</li>
+						<li>
+							<a href="#" data-app="peripherals" data-params="" data-path="<?= $invmonPath ?>"><?= TRANS('MNL_COMPONENTES_MODEL'); ?></a>
+						</li>
+						<li>
+							<a href="#" data-app="peripherals_tagged" data-params="" data-path="<?= $invmonPath ?>"><?= TRANS('DETACHED_COMPONENTS'); ?></a>
 						</li>
 					</ul>
 				</div>
@@ -327,7 +339,7 @@ if (isset($_GET['menu']) && !empty($_GET['menu'])) {
 							<a href="#" data-app="consulta_comp" data-params="" data-path="<?= $invmonPath ?>"><?= TRANS('ASSETS_FULL_SEARCH'); ?></a>
 						</li>
 						<li>
-							<a href="#" data-app="estoque" data-params="action=search&cellStyle=true" data-path="<?= $invmonPath ?>"><?= TRANS('DETACHED_COMPONENTS'); ?></a>
+							<a href="#" data-app="peripherals_tagged" data-params="" data-path="<?= $invmonPath ?>"><?= TRANS('DETACHED_COMPONENTS'); ?></a>
 						</li>
 					</ul>
 				</div>

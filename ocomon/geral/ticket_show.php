@@ -31,6 +31,7 @@ $conn = ConnectPDO::getInstance();
 
 $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
 
+$config = getConfig($conn);
 
 ?>
 <!DOCTYPE html>
@@ -302,6 +303,7 @@ $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
     $colsDefault = "small text-break border-bottom rounded p-2 bg-white"; /* border-secondary */
     $colContent = $colsDefault . " col-sm-3 col-md-3";
     $colContentLine = $colsDefault . " col-sm-9";
+    $colContentLineFile = " text-break border-bottom rounded p-2 bg-white col-sm-9"; 
     ?>
 
     <div class="container">
@@ -720,10 +722,10 @@ $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
         </div> -->
 
         <?php
-        /* USUÁRIO SOMENTE ABERTURA: INCLUIR COMENTÁRIO */
+        /* Usuário final - pode inserir comentário e arquivos ao chamado */
         if ($_SESSION['s_nivel'] == 3) {
-        ?>
-            <form name="form1" id="form1" method="post" action="./insert_comment.php">
+            ?>
+            <form name="form" id="form" method="post" enctype="multipart/form-data" action="./insert_comment.php">
 
                 <input type="hidden" name="onlyOpen" id="onlyOpen" value="1" />
                 <input type="hidden" name="numero" id="idNumero" value="<?= $COD; ?>" /> <!-- id="idUrl" -->
@@ -731,26 +733,38 @@ $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
                 <div class="row my-2">
                     <div class="col-sm-12 d-none" id="server-response"></div>
                 </div>
+
                 <div class="row my-2">
-                    <div class="col-sm-12" id="flash">
-                        <?php
-                        if (isset($_SESSION['flash']) && !empty($_SESSION['flash'])) {
-                            echo $_SESSION['flash'];
-                            $_SESSION['flash'] = "";
-                        }
-                        ?>
+                    <div class="<?= $colLabel; ?>">
+                        <?= TRANS('ATTACH_FILE'); ?>
+                    </div>
+                    <div class="<?= $colContentLineFile; ?>">
+                        <div class="field_wrapper" id="field_wrapper">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <a href="javascript:void(0);" class="add_button" title="<?= TRANS('TO_ATTACH_ANOTHER'); ?>"><i class="fa fa-plus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="anexo[]" id="idInputFile" aria-describedby="inputGroupFileAddon01" lang="br">
+                                    <label class="custom-file-label text-truncate" for="inputGroupFile01"><?= TRANS('CHOOSE_FILE'); ?></label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row my-2">
                     <div class="<?= $colLabel; ?>">
 
-                        <button id="bt_new_comment" class="btn btn-secondary" type="button" value="<?= TRANS('INSERT_COMMENT'); ?>"><?= TRANS('INSERT_COMMENT'); ?>
+                        <button id="bt_new_comment" class="btn btn-secondary" type="button" value="<?= TRANS('INSERT_COMMENT_FILE'); ?>"><?= TRANS('INSERT_COMMENT_FILE'); ?>
                         </button>
 
                     </div>
                     <div class="<?= $colContentLine; ?>">
                         <div class="form-group col-md-12 p-0">
-                            <textarea class="form-control form-control-sm" id="add_comment" name="add_comment" rows="4" required></textarea>
+                            <textarea class="form-control form-control-sm" id="add_comment" name="add_comment" rows="4" placeholder="<?= TRANS('AT_LEAST_5_CHARS'); ?>" required></textarea>
                             <small class="form-text text-muted">
                                 <?= TRANS('COMMENT_DESC'); ?>
                             </small>
@@ -758,11 +772,13 @@ $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
                     </div>
                 </div>
 
+                <input type="hidden" name="MAX_FILE_SIZE" value="<?= $config['conf_upld_size']; ?>" />
+
             </form>
 
-        <?php
+            <?php
         }
-        /* FINAL DO TRECHO DE INSERÇÃO DE COMENTÁRIOS */
+        /* Final do trecho para inserção de arquivos e comentários */
 
 
         /* ABAS */
@@ -991,14 +1007,14 @@ $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
                                         } else {
                                             $viewImage = "";
                                         }
-                                    ?>
+                                        ?>
                                         <tr>
                                             <th scope="row"><?= $i; ?></th>
                                             <td><?= $rowFiles['img_tipo']; ?></td>
                                             <td><?= $size; ?>k</td>
                                             <td><a onClick="redirect('../../includes/functions/download.php?file=<?= $COD; ?>&cod=<?= $rowFiles['img_cod']; ?>')" title="Download the file"><?= $rowFiles['img_nome']; ?></a><?= $viewImage; ?></i></td>
                                         </tr>
-                                    <?php
+                                        <?php
                                         $i++;
                                     }
                                     ?>
@@ -1123,23 +1139,63 @@ $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
             //APENAS PARA USUÁRIOS DE ABERTURA
             if ($('#onlyOpen').val() == 1) {
 
+                /* Permitir a replicação do campo de input file */
+                var maxField = <?= $config['conf_qtd_max_anexos']; ?>;
+                var addButton = $('.add_button'); //Add button selector
+                var wrapper = $('.field_wrapper'); //Input field wrapper
+
+                var fieldHTML = '<div class="input-group my-1 d-block"><div class="input-group-prepend"><div class="input-group-text"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus"></i></a></div><div class="custom-file"><input type="file" class="custom-file-input" name="anexo[]"  aria-describedby="inputGroupFileAddon01" lang="br"><label class="custom-file-label text-truncate" for="inputGroupFile01"><?= TRANS('CHOOSE_FILE', '', 1); ?></label></div></div></div></div>';
+
+                var x = 1; //Initial field counter is 1
+
+                //Once add button is clicked
+                $(addButton).click(function() {
+                    //Check maximum number of input fields
+                    if (x < maxField) {
+                        x++; //Increment field counter
+                        $(wrapper).append(fieldHTML); //Add field html
+                    }
+                });
+
+                //Once remove button is clicked
+                $(wrapper).on('click', '.remove_button', function(e) {
+                    e.preventDefault();
+                    $(this).parent('div').parent('div').parent('div').remove(); //Remove field html
+                    x--; //Decrement field counter
+                });
+
+
                 $('#bt_new_comment').on('click', function() {
                     $('#add_comment').focus();
                 });
 
                 $('#add_comment').on('keyup', function() {
-                    if ($(this).val()) {
+                    if ($.trim($(this).val()).length > 4) {
 
                         $('#bt_new_comment').removeClass('btn-secondary').addClass('btn-primary').text('<?= TRANS('BT_OK'); ?>').prop('id', 'bt_submit');
 
                     } else {
                         if ($('#bt_submit').length) {
-                            $('#bt_submit').removeClass('btn-primary').addClass('btn-secondary').text('<?= TRANS('INSERT_COMMENT'); ?>').prop('id', 'bt_new_comment');
+                            $('#bt_submit').removeClass('btn-primary').addClass('btn-secondary').text('<?= TRANS('INSERT_COMMENT_FILE'); ?>').prop('id', 'bt_new_comment');
                         }
                     }
                 });
                 new_submit();
             }
+
+
+            if ($('#idInputFile').length > 0) {
+			/* Adicionei o mutation observer em função dos elementos que são adicionados após o carregamento do DOM */
+			var obs = $.initialize(".custom-file-input", function() {
+				$('.custom-file-input').on('change', function() {
+					let fileName = $(this).val().split('\\').pop();
+					$(this).next('.custom-file-label').addClass("selected").html(fileName);
+				});
+
+			}, {
+				target: document.getElementById('field_wrapper')
+			}); /* o target limita o scopo do observer */
+		}
 
 
             $( "#idDate_schedule" ).datepicker({
@@ -1260,9 +1316,22 @@ $auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
                         $('#add_comment').focus();
                     } else {
                         $('#idLoad').show();
+
+                        var form = $('form').get(0);
                         $("#bt_submit").prop("disabled", true);
-                        $.post('insert_comment.php', $('#form1').serialize(), function(response) {
-                            $("#server-response").html(response);
+
+                        $.ajax({
+                            url: './insert_comment.php',
+                            method: 'POST',
+                            // data: $('#form').serialize(),
+                            data: new FormData(form),
+                            // dataType: 'json',
+
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                        }).done(function(response) {
+                            // $("#server-response").html(response);
                             location.reload();
                         });
                     }

@@ -30,7 +30,7 @@
 	$hoje2 = date("Y-m-d H:i:s");
 	$hojeLog = date ("d-m-Y H:i:s");
 
-        $query = $QRY["full_detail_ini"];
+    $query = $QRY["full_detail_ini"];
 	$query.= " and (c.comp_inv = '".$_REQUEST['comp_inv']."') and (inst.inst_cod = ".$_REQUEST['comp_inst'].") ";
 	$query.= $QRY["full_detail_fim"];
 
@@ -689,12 +689,10 @@
 			}
 
 
-
-
 			$query = "UPDATE equipamentos SET comp_sn='".noHtml($_POST['serial'])."', comp_marca='".$_POST['modelo']."', comp_mb=". dbField($_POST['mb']) .",
 						comp_proc=". dbField($_POST['processador']) .", comp_memo=". dbField($_POST['memoria']) .", comp_video=". dbField($_POST['video']) .", comp_som=". dbField($_POST['som']) .",
 						comp_rede=". dbField($_POST['rede']) .", comp_modelohd=". dbField($_POST['hd']) .", comp_modem=". dbField($_POST['modem']) .", comp_cdrom=". dbField($_POST['cdrom']) .",
-						comp_dvd=". dbField($_POST['dvd']) .", comp_grav=". dbField($_POST['gravador']) .", comp_nome='".noHtml($_POST['nome'])."', comp_local=".$_POST['local'].",
+						comp_dvd=". dbField($_POST['dvd']) .", comp_grav=". dbField($_POST['gravador']) .", comp_nome='".noHtml($_POST['nome'])."', comp_local='".$_POST['local']."',
 						comp_fornecedor=". dbField($_POST['fornecedor']) .", comp_nf='".noHtml($_POST['nota'])."', comp_coment='".noHtml($_POST['comentario'])."',
 						comp_valor='".$preco."', comp_data_compra=". dbField($_POST['data'],"date") .", comp_inst=".$row['cod_inst'].",
 						comp_ccusto='".$_POST['ccusto']."', comp_tipo_equip=".$_POST['equipamentos'].", comp_tipo_imp=".$_POST['impressora'].",
@@ -875,7 +873,7 @@
 			}
 		}
 		print "<script>mensagem('".$aviso."'); ";
-		print "redirect('equipment_show.php?comp_inv=".$_POST['comp_inv']."&comp_inst=".$_POST['comp_inst']."');</script>";
+		print "redirect('equipment_show.php?tag=".$_POST['comp_inv']."&unit=".$_POST['comp_inst']."');</script>";
 
 	}
 

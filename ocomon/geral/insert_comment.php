@@ -28,66 +28,151 @@ use includes\classes\ConnectPDO;
 
 $conn = ConnectPDO::getInstance();
 
-$auth = new auth($_SESSION['s_logado']);
-$auth->testa_user_hidden($_SESSION['s_usuario'],$_SESSION['s_nivel'],$_SESSION['s_nivel_desc'],4);
+$auth = new AuthNew($_SESSION['s_logado'], $_SESSION['s_nivel'], 3);
+
+
+$config = getConfig($conn);
+$rowconfmail = getMailConfig($conn);
 
 
 if (isset($_POST['onlyOpen']) && $_POST['onlyOpen'] == 1) {
 
-
 	// dump($_POST); exit();
-
+	$exception = "";
+	$mailNotification = "";
 	$numero = noHtml($_POST['numero']);
-	$comment = noHtml($_POST['add_comment']);
+	$data = [];
+	$data['numero'] = $numero;
+	$comment = (isset($_POST['add_comment']) ? noHtml($_POST['add_comment']) : "");
+
+	
+	if (empty($comment)) {
+		$_SESSION['flash'] = message('warning', 'Ooops!', TRANS('MSG_EMPTY_DATA'), '');
+		return false;
+	}
+
 	
 	$qry = "INSERT INTO assentamentos (ocorrencia, assentamento, data, responsavel, asset_privated, tipo_assentamento) values ".
 			"(".$numero.", '".$comment."', '".date("Y-m-d H:i:s")."', ".$_SESSION['s_uid'].", 0, 8 ) ";
-	$exec = $conn->exec($qry) or die ($qry);
-	
-	
-	$qryfull = $QRY["ocorrencias_full_ini"]." WHERE o.numero = ".$numero."";
-	// $execfull = mysql_query($qryfull) or die(TRANS('MSG_ERR_RESCUE_VARIA_SURROU').$qryfull);
-	$execfull = $conn->query($qryfull);
-	$rowfull = $execfull->fetch();
 
-	$VARS = array();
-	$VARS['%numero%'] = $rowfull['numero'];
-	$VARS['%usuario%'] = $rowfull['contato'];
-	$VARS['%contato%'] = $rowfull['contato'];
-	$VARS['%descricao%'] = $rowfull['descricao'];
-	$VARS['%departamento%'] = $rowfull['setor'];
-	$VARS['%telefone%'] = $rowfull['telefone'];
-	$VARS['%assentamento%'] = $comment;
-	//$VARS['%site%'] = "<a href='".$row_config['conf_ocomon_site']."'>".$row_config['conf_ocomon_site']."</a>";
-	$VARS['%area%'] = $rowfull['area'];
-	$VARS['%operador%'] = $rowfull['nome'];
-	//$VARS['%editor%'] = $rowMailLogado['nome'];
-	$VARS['%aberto_por%'] = $rowfull['aberto_por'];
-	$VARS['%problema%'] = $rowfull['problema'];
-	// $VARS['%versao%'] = VERSAO;		
-	
-	$sqlMailArea = "select * from sistemas where sis_id = ".$rowfull['area_cod']."";
-	$execMailArea = $conn->query($sqlMailArea);
-	$rowMailArea = $execMailArea->fetch();	
-	
-	
-	$qryconfmail = "SELECT * FROM mailconfig";
-	$execconfmail = $conn->query($qryconfmail);
-	$rowconfmail = $execconfmail->fetch();	
+	try {
+		$exec = $conn->exec($qry);
+		$data['message'] = TRANS('TICKET_ENTRY_SUCCESS_ADDED');
+	}
+	catch (Exception $e) {
+		$exception .= "<hr>" . $e->getMessage();
+		$data['message'] = TRANS('MSG_SOMETHING_GOT_WRONG') . $exception;
+	}
+			
 
+	/* Checagens para upload de arquivos - vale para todos os actions */
+	$totalFiles = ($_FILES && !empty($_FILES['anexo']['name'][0]) ? count($_FILES['anexo']['name']) : 0);
+	if ($totalFiles > $config['conf_qtd_max_anexos']) {
+
+		$data['success'] = false; 
+		$data['message'] .= '<hr>Too many files';
+		echo json_encode($data);
+		$_SESSION['flash'] = message('warning', 'Ooops!', $data['message'], '');
+		return false;
+	}
+
+	$uploadMessage = "";
+	/* Testa os arquivos enviados para montar os índices do recordFile*/
+	if ($totalFiles) {
+		foreach ($_FILES as $anexo) {
+			$file = array();
+			for ($i = 0; $i < $totalFiles; $i++) {
+				/* fazer o que precisar com cada arquivo */
+				/* acessa:  $anexo['name'][$i] $anexo['type'][$i] $anexo['tmp_name'][$i] $anexo['size'][$i]*/
+				$file['name'] =  $anexo['name'][$i];
+				$file['type'] =  $anexo['type'][$i];
+				$file['tmp_name'] =  $anexo['tmp_name'][$i];
+				$file['error'] =  $anexo['error'][$i];
+				$file['size'] =  $anexo['size'][$i];
+
+				$upld = upload('anexo', $config, $config['conf_upld_file_types'], $file);
+				if ($upld == "OK") {
+					$recordFile[$i] = true;
+				} else {
+					$recordFile[$i] = false;
+					$uploadMessage .= $upld;
+				}
+			}
+		}
+		if (strlen($uploadMessage) > 0) {
+			$data['success'] = false; 
+			$data['field_id'] = "idInputFile";
+			$data['message'] = message('warning', 'Ooops!', $uploadMessage, '');
+			echo json_encode($data);
+			$_SESSION['flash'] = $data['message'];
+			return false;                
+		}
+	}
+
+	/* Upload de arquivos - Todos os actions */
+	if ($totalFiles) {
+		foreach ($_FILES as $anexo) {
+			$file = array();
+			for ($i = 0; $i < $totalFiles; $i++) {
+				/* fazer o que precisar com cada arquivo */
+				/* acessa:  $anexo['name'][$i] $anexo['type'][$i] $anexo['tmp_name'][$i] $anexo['size'][$i]*/
+
+				/* Apenas os arquivos já validados */
+				if ($recordFile && $recordFile[$i]) {
+					//INSERSAO DO ARQUIVO NO BANCO
+					$fileinput = $anexo['tmp_name'][$i];
+					// $tamanho = getimagesize($fileinput);
+					$tamanho = getimagesize($fileinput);
+					$tamanho2 = filesize($fileinput);
+
+					if (!$tamanho) {
+						/* Nâo é imagem */
+						unset ($tamanho);
+						$tamanho = [];
+						$tamanho[0] = "";
+						$tamanho[1] = "";
+					}
+
+					if (chop($fileinput) != "") {
+						// $fileinput should point to a temp file on the server
+						// which contains the uploaded file. so we will prepare
+						// the file for upload with addslashes and form an sql
+						// statement to do the load into the database.
+						$file = addslashes(fread(fopen($fileinput, "r"), 1000000));
+						$sqlFile = "INSERT INTO imagens (img_nome, img_oco, img_tipo, img_bin, img_largura, img_altura, img_size) values " .
+							"('" . noSpace($anexo['name'][$i]) . "'," . $data['numero'] . ", '" . $anexo['type'][$i] . "', " .
+							"'" . $file . "', " . dbField($tamanho[0]) . ", " . dbField($tamanho[1]) . ", " . dbField($tamanho2) . ")";
+						// now we can delete the temp file
+						unlink($fileinput);
+					}
+					try {
+						$exec = $conn->exec($sqlFile);
+					}
+					catch (Exception $e) {
+						$data['message'] = $data['message'] . "<hr>" . TRANS('MSG_ERR_NOT_ATTACH_FILE');
+						$exception .= "<hr>" . $e->getMessage();
+					}
+				}
+			}
+		}
+	}
+
+
+	/* Variáveis de ambiente para envio de e-mail: todos os actions */
+	$VARS = getEnvVarsValues($conn, $data['numero']);
 
 	$event = 'edita-para-area';
-	$qrymsg = "SELECT * FROM msgconfig WHERE msg_event like ('".$event."')";
-	$execmsg = $conn->query($qrymsg);
-	$rowmsg = $execmsg->fetch();
+	$eventTemplate = getEventMailConfig($conn, $event);
 
-	send_mail($event, $rowMailArea['sis_email'], $rowconfmail, $rowmsg, $VARS);
+	$mailSent = send_mail($event, $VARS['%area_email%'], $rowconfmail, $eventTemplate, $VARS);
+	if (!$mailSent) {
+		$mailNotification .= "<hr>" . TRANS('EMAIL_NOT_SENT');
+	}
 	
-	// print "<script>redirect('ticket_show.php?numero=".$numero."&id=".$_POST['urlid']."');</script>";
-	// print "<script>redirect('ticket_show.php?numero=".$numero."');</script>";
+	$_SESSION['flash'] = message('success', '', TRANS('TICKET_ENTRY_SUCCESS_ADDED') . $mailNotification, '');
 
-	$_SESSION['flash'] = message('success', 'Pronto!', TRANS('TICKET_ENTRY_SUCCESS_ADDED'), '');
+	return false;
 	// echo TRANS('TICKET_ENTRY_SUCCESS_ADDED');
-	echo message('success', 'Pronto!', TRANS('TICKET_ENTRY_SUCCESS_ADDED'), '');
+	// echo message('success', 'Pronto!', TRANS('TICKET_ENTRY_SUCCESS_ADDED'), '');
 
 }

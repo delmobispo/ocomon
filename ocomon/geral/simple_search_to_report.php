@@ -94,16 +94,16 @@ $_SESSION['s_page_ocomon'] = $_SERVER['PHP_SELF'];
                 </div>  
                 <input type="hidden" name="simpleSearch" value="1"/>
 
-                <div class="row w-100">
-                    <div class="form-group col-md-8 d-none d-md-block">
-                    </div>
-                    <div class="form-group col-12 col-md-2 ">
-                        <button type="submit" id="idSearch" class="btn btn-primary btn-block"><?= TRANS('BT_SEARCH'); ?></button>
-                    </div>
-                    <div class="form-group col-12 col-md-2">
-                        <button type="reset" id="idCancel" class="btn btn-secondary btn-block text-nowrap" onClick="parent.history.back();"><?= TRANS('BT_CANCEL'); ?></button>
-                    </div>
+                <div class="row w-100"></div>
+                <div class="form-group col-md-8 d-none d-md-block">
                 </div>
+                <div class="form-group col-12 col-md-2 ">
+                    <button type="submit" id="idSearch" class="btn btn-primary btn-block"><?= TRANS('BT_SEARCH'); ?></button>
+                </div>
+                <div class="form-group col-12 col-md-2">
+                    <button type="reset" id="idCancel" class="btn btn-secondary btn-block text-nowrap" onClick="parent.history.back();"><?= TRANS('BT_CANCEL'); ?></button>
+                </div>
+                
 
 
             </div>

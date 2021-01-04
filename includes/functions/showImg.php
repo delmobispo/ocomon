@@ -22,15 +22,13 @@ session_start();
 
 	$query = "SELECT * FROM imagens WHERE  img_cod=".$_GET['cod']."";
 	
-	// $result = mysql_query($query) or die("ERRO NA TENTATIVA DE RECUPERAR AS INFORMAÇÕES DA IMAGEM");
 	try {
 		$result = $conn->query($query);
 	}
 	catch (Exception $e) {
-		// echo 'Erro: ', $e->getMessage(), "<br/>";
 		$erro = true;
-		echo TRANS('MSG_ERR_GET_DATA');
-		exit();
+		message('danger', 'Ooops!', TRANS('MSG_ERR_GET_DATA'), '', '', 1);
+		return;
 	}
 	
 	// $data = @ mysql_fetch_array($result);

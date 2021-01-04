@@ -770,7 +770,7 @@ if (!isset($_POST['submit'])) {
 
         /* var fieldHTML = '<div class="input-group my-1"><div class="input-group-prepend"><div class="input-group-text"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus"></i></a></div><div class="custom-file"><input type="file" class="custom-file-input custom-file-input-sm" name="anexo[]" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" lang="br"><label class="custom-file-label " for="inputGroupFile01"><?= TRANS('CHOOSE_FILE'); ?></label></div></div></div></div>'; */
 
-        var fieldHTML = '<div class="input-group my-1"><div class="input-group-prepend"><div class="input-group-text"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus"></i></a></div><div class="custom-file"><input type="file" class="custom-file-input" name="anexo[]"  aria-describedby="inputGroupFileAddon01" lang="br"><label class="custom-file-label text-truncate" for="inputGroupFile01"><?= TRANS('CHOOSE_FILE'); ?></label></div></div></div></div>';
+        var fieldHTML = '<div class="input-group my-1 d-block"><div class="input-group-prepend"><div class="input-group-text"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus"></i></a></div><div class="custom-file"><input type="file" class="custom-file-input" name="anexo[]"  aria-describedby="inputGroupFileAddon01" lang="br"><label class="custom-file-label text-truncate" for="inputGroupFile01"><?= TRANS('CHOOSE_FILE'); ?></label></div></div></div></div>';
 
         var x = 1; //Initial field counter is 1
 
